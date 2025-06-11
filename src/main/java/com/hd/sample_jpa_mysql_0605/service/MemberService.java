@@ -4,6 +4,7 @@ import com.hd.sample_jpa_mysql_0605.dto.MemberReqDto;
 import com.hd.sample_jpa_mysql_0605.dto.SignUpReqDto;
 import com.hd.sample_jpa_mysql_0605.dto.MemberResDto;
 import com.hd.sample_jpa_mysql_0605.entity.Member;
+import com.hd.sample_jpa_mysql_0605.exception.CustomException;
 import com.hd.sample_jpa_mysql_0605.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +34,7 @@ public class MemberService {
     // 회원 상세 조회
     public MemberResDto findByEmail(String email) {
         Member member = memberRepository.findByEmail(email).orElseThrow(
-                () -> new RuntimeException("해당 회원이 존재 하지 않습니다.")  // 500번 에러
+                () -> new CustomException("NOT_FOUND", "해당 이메일의 사용자를 찾을 수 없습니다.")  // 500번 에러
         );
         return convertEntityToDto(member);
     }
@@ -42,7 +43,7 @@ public class MemberService {
     public boolean modifyMember(MemberReqDto memberReqDto) {
         try {
             Member member = memberRepository.findByEmail(memberReqDto.getEmail()).orElseThrow(
-                    () -> new RuntimeException("해당 회원이 존재 하지 않습니다.") // 500 에러
+                    () -> new CustomException("NOT_FOUND", "해당 이메일의 사용자를 찾을 수 없습니다.")
             );
             member.setName(memberReqDto.getName());
             member.setImage(memberReqDto.getImage());
@@ -55,9 +56,9 @@ public class MemberService {
     }
 
     // 회원 삭제
-    public boolean deleteMember(SignUpReqDto signUpReqDto) {
+    public boolean deleteMember(String email) {
         try {
-            Member member = memberRepository.findByEmail(signUpReqDto.getEmail()).orElseThrow(
+            Member member = memberRepository.findByEmail(email).orElseThrow(
                     () -> new RuntimeException("해당 회원이 존재 하지 않습니다.") // 500 에러
             );
             memberRepository.delete(member);
