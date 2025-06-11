@@ -1,6 +1,6 @@
 package com.hd.sample_jpa_mysql_0605.service;
 
-import com.hd.sample_jpa_mysql_0605.dto.MemberReqDto;
+import com.hd.sample_jpa_mysql_0605.dto.SignUpReqDto;
 import com.hd.sample_jpa_mysql_0605.entity.Member;
 import com.hd.sample_jpa_mysql_0605.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,9 +23,9 @@ public class AuthService {
     }
 
     // 회원 가입
-    public boolean signup(MemberReqDto memberReqDto) {
+    public boolean signup(SignUpReqDto signUpReqDto) {
         try {
-            Member member = convertDtoToEntity(memberReqDto);
+            Member member = convertDtoToEntity(signUpReqDto);
             memberRepository.save(member);
             return true;
         } catch (Exception e) {
@@ -42,11 +42,11 @@ public class AuthService {
     }
 
     // DTO -> Entity Mapping
-    private Member convertDtoToEntity(MemberReqDto memberReqDto) {
+    private Member convertDtoToEntity(SignUpReqDto signUpReqDto) {
         Member member = new Member();
-        member.setEmail(memberReqDto.getEmail());
-        member.setPwd(memberReqDto.getPwd());
-        member.setName(memberReqDto.getName());
+        member.setEmail(signUpReqDto.getEmail());
+        member.setPwd(signUpReqDto.getPwd());
+        member.setName(signUpReqDto.getName());
         return member;
     }
 

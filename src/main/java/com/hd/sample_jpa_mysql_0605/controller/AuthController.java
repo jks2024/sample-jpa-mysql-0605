@@ -1,7 +1,7 @@
 package com.hd.sample_jpa_mysql_0605.controller;
 
 import com.hd.sample_jpa_mysql_0605.dto.LoginReqDto;
-import com.hd.sample_jpa_mysql_0605.dto.MemberReqDto;
+import com.hd.sample_jpa_mysql_0605.dto.SignUpReqDto;
 import com.hd.sample_jpa_mysql_0605.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,8 +28,8 @@ public class AuthController {
 
     // 회원 가입
     @PostMapping("/signup")  // Body에 정보를 싣는 방식, 정보가 보여지지 않음
-    public ResponseEntity<Boolean> signup(@RequestBody MemberReqDto memberReqDto) {
-        boolean isSuccess = authService.signup(memberReqDto);
+    public ResponseEntity<Boolean> signup(@RequestBody SignUpReqDto signUpReqDto) {
+        boolean isSuccess = authService.signup(signUpReqDto);
         return ResponseEntity.ok(isSuccess);
     }
 
