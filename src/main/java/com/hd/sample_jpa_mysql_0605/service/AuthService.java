@@ -32,7 +32,6 @@ public class AuthService {
             log.error("회원 가입 시 오류 발생 : {}", e.getMessage());
             return false;
         }
-
     }
 
     // 로그인
