@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "member")
 @Getter @Setter
-@ToString
+@ToString(exclude = "pwd")
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

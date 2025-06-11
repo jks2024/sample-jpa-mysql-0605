@@ -1,78 +1,45 @@
 package com.hd.sample_jpa_mysql_0605.controller;
 
 import com.hd.sample_jpa_mysql_0605.dto.LoginReqDto;
-import com.hd.sample_jpa_mysql_0605.dto.MemberRegDto;
-import com.hd.sample_jpa_mysql_0605.dto.MemberResDto;
-import lombok.NoArgsConstructor;
+import com.hd.sample_jpa_mysql_0605.dto.MemberReqDto;
+import com.hd.sample_jpa_mysql_0605.service.AuthService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
 @Slf4j // Log 메시지 출력을 위한 어노테이션
 @RestController  // Rest API (GET, POST, PUT, DELETE)
+@RequiredArgsConstructor  // 생성자를 통한 의존성 주입을 받기위해서 생성자를 자동 생성
 @CrossOrigin(origins = {
         "http://localhost:3000",
         "http://localhost:5173"
 })
 @RequestMapping("/auth")
 public class AuthController {
-    @PostMapping("/signup")
-    public ResponseEntity<MemberResDto> signup(@RequestBody MemberRegDto memberRegDto) {
-        log.info("member : {}", memberRegDto);
-        MemberResDto memberResDto = new MemberResDto();
-        memberResDto.setEmail(memberRegDto.getEmail());
-        memberResDto.setName(memberRegDto.getName());
-        memberResDto.setPwd(memberRegDto.getPwd());
-        memberResDto.setImage("/test/test.img");
-        memberResDto.setRegDate(LocalDateTime.now());
-        return ResponseEntity.ok(memberResDto);
+    private final AuthService authService;
+
+    // 회원 가입 여부 확인
+    @GetMapping("/exists/{email}")  // 정보가 브라우저 주소창에 보여짐
+    public ResponseEntity<Boolean> existsByEmail(@PathVariable String email) {
+        boolean isExist = authService.isMember(email);
+        return ResponseEntity.ok(!isExist);
     }
 
-    // 로그인 Controller
-    // Post 방식 : email, pwd를 Request Body 형식으로 수신
-    // 응답은 boolean 값으로 응답 (true / false)
+    // 회원 가입
+    @PostMapping("/signup")  // Body에 정보를 싣는 방식, 정보가 보여지지 않음
+    public ResponseEntity<Boolean> signup(@RequestBody MemberReqDto memberReqDto) {
+        boolean isSuccess = authService.signup(memberReqDto);
+        return ResponseEntity.ok(isSuccess);
+    }
+
+    // 로그인
     @PostMapping("/login")
     public ResponseEntity<Boolean> login(@RequestBody LoginReqDto loginReqDto) {
-        log.debug("login : {}", loginReqDto);
-
-        return ResponseEntity.ok(true);
+        boolean isSuccess = authService.login(loginReqDto.getEmail(), loginReqDto.getPwd());
+        return ResponseEntity.ok(isSuccess);
     }
 
-    // 회원 조회 Controller
-    // Get 방식 : email이 있으면 해당 회원 조회
-    // 없으면 전체 회원 조회
-    // 단, 회원 정보 리스트는 서비스로직과 DB 가 없으므로, for문으로 자체 생성
 
-    private List<MemberResDto> generateMember() {
-        List<MemberResDto> list = new ArrayList<>();
-        for(int i = 0; i < 20; i++) {
-            MemberResDto memberResDto = new MemberResDto();
-            memberResDto.setEmail("jks2024" + i);
-            memberResDto.setImage("/image/test.img" + i);
-            memberResDto.setPwd("sphb8250" + i);
-            memberResDto.setName("곰돌이" + i);
-            memberResDto.setRegDate(LocalDateTime.now());
-            list.add(memberResDto);
-        }
-        return list;
-    }
-    @GetMapping("/list")
-    public ResponseEntity<?> getMember(@RequestParam(required = false) String email) {
-        log.error("email : {}", email);
-        List<MemberResDto> ls = generateMember();
-        if (email == null || email.isBlank()) {
-            return ResponseEntity.ok(ls);
-        }
-        for (MemberResDto memberResDto : ls) {
-            if (memberResDto.getEmail().equals(email)) {
-                return ResponseEntity.ok(memberResDto);
-            }
-        }
-        return ResponseEntity.notFound().build(); // 404
-    }
 
 }
