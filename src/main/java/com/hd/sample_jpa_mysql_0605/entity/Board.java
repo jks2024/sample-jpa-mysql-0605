@@ -13,8 +13,9 @@ import java.time.LocalDateTime;
 @Getter @Setter @ToString @NoArgsConstructor
 public class Board {
     @Id
+    @Column(name = "board_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long boardId;  // board_id
+    private Long id;  // board_id
 
     @Column(length = 256, nullable = false)
     private String title;  // 게시글 제목
