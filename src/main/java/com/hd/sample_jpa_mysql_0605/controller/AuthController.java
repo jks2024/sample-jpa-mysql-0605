@@ -39,7 +39,4 @@ public class AuthController {
         boolean isSuccess = authService.login(loginReqDto.getEmail(), loginReqDto.getPwd());
         return ResponseEntity.ok(isSuccess);
     }
-
-
-
 }

@@ -48,5 +48,4 @@ public class AuthService {
         member.setName(signUpReqDto.getName());
         return member;
     }
-
 }

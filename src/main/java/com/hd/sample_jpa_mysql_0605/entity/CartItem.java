@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Getter @Setter @ToString
 public class CartItem {
     @Id
-    @GeneratedValue  // 생성전략을 지정하지 않으면 AUTO
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="cart_item_id")
     private Long id;
 

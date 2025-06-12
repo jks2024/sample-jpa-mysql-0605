@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class Item {
     @Id   // 기본키 필드 지정, 유일한 값, not null, 반드시 있어야 함
     @Column(name="item_id")  // DB로 생성될 컬럼 이름을 지정
-    @GeneratedValue(strategy = GenerationType.AUTO)  // 기본키 생성 전략, JPA가 DB에 맞게 생성전략을 결정
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, length = 50)

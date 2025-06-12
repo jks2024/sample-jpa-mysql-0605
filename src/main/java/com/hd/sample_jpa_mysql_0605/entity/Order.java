@@ -15,7 +15,7 @@ import java.util.List;
 @Table(name="orders")
 public class Order {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="order_id")
     private Long id;
 
