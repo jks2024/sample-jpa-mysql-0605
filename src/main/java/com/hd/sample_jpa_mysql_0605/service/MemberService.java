@@ -31,6 +31,9 @@ public class MemberService {
         return memberResDtos;
     }
 
+    // 회원 전체 조회 JDBC
+
+
     // 회원 상세 조회
     public MemberResDto findByEmail(String email) {
         Member member = memberRepository.findByEmail(email).orElseThrow(

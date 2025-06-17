@@ -3,7 +3,6 @@ package com.hd.sample_jpa_mysql_0605.controller;
 import com.hd.sample_jpa_mysql_0605.dto.BoardResDto;
 import com.hd.sample_jpa_mysql_0605.dto.BoardWriteDto;
 import com.hd.sample_jpa_mysql_0605.dto.PageResDto;
-import com.hd.sample_jpa_mysql_0605.entity.Board;
 import com.hd.sample_jpa_mysql_0605.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -54,8 +53,8 @@ public class BoardController {
         return ResponseEntity.ok(boardService.getBoardById(id));
     }
 
-    // 게시글 페이징 : : 입력(페이지 번호, 페이지 사이즈), 반환(PageResDto)
-    @GetMapping("/list/page")
+    // 게시글 페이징 : 입력(페이지 번호, 페이지 사이즈), 반환(PageResDto)
+    @GetMapping("/page")
     public ResponseEntity<PageResDto<BoardResDto>> getBoardListPage(@RequestParam Integer page, @RequestParam Integer size) {
         return ResponseEntity.ok(boardService.getBoardPageList(page, size));
     }
