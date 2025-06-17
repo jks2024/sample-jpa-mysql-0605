@@ -1,5 +1,6 @@
 package com.hd.sample_jpa_mysql_0605.service;
 
+import com.hd.sample_jpa_mysql_0605.dao.MemberDao;
 import com.hd.sample_jpa_mysql_0605.dto.MemberReqDto;
 import com.hd.sample_jpa_mysql_0605.dto.SignUpReqDto;
 import com.hd.sample_jpa_mysql_0605.dto.MemberResDto;
@@ -20,19 +21,22 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
+    private final MemberDao memberDao;
 
     // 회원 전체 조회
-    public List<MemberResDto> findAll() {
-        List<Member> members = memberRepository.findAll(); // DB의 정보를 Member Entity에 담음
-        List<MemberResDto> memberResDtos = new ArrayList<>();  // DTO List 생성
-        for (Member member : members) {
-            memberResDtos.add(convertEntityToDto(member));
-        }
-        return memberResDtos;
-    }
+//    public List<MemberResDto> findAll() {
+//        List<Member> members = memberRepository.findAll(); // DB의 정보를 Member Entity에 담음
+//        List<MemberResDto> memberResDtos = new ArrayList<>();  // DTO List 생성
+//        for (Member member : members) {
+//            memberResDtos.add(convertEntityToDto(member));
+//        }
+//        return memberResDtos;
+//    }
 
     // 회원 전체 조회 JDBC
-
+    public List<MemberResDto> findAll() {
+        return memberDao.findAll();
+    }
 
     // 회원 상세 조회
     public MemberResDto findByEmail(String email) {
