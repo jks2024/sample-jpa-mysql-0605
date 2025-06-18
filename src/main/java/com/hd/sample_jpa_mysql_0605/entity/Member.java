@@ -1,9 +1,7 @@
 package com.hd.sample_jpa_mysql_0605.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import com.hd.sample_jpa_mysql_0605.constant.Authority;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,7 +9,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "member")
 @Getter @Setter
-@ToString(exclude = "pwd")
+@NoArgsConstructor
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,8 +30,16 @@ public class Member {
 
     private LocalDateTime regDate;
 
-    @PrePersist  // DB에 INSERT 되기전에 실행되는 메서드
-    private void prePersist() {
+    @Enumerated(EnumType.STRING)
+    private Authority authority;
+
+    @Builder
+    public Member(String name, String pwd, String email, String image, Authority authority) {
+        this.name = name;
+        this.pwd = pwd;
+        this.email = email;
+        this.image = image;
+        this.authority = authority;
         this.regDate = LocalDateTime.now();
     }
 }

@@ -15,24 +15,5 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class MemberDao {
-    private final JdbcTemplate jdbcTemplate;
-    // 전체 조회
-    private static final String SELECT_ALL = "select * from member";
 
-    public List<MemberResDto> findAll() {
-        return jdbcTemplate.query(SELECT_ALL, new MemberRowMapper());
-    }
-
-    private static class MemberRowMapper implements RowMapper<MemberResDto> {
-        @Override
-        public MemberResDto mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new MemberResDto (
-                    rs.getString("email"),
-                    rs.getString("name"),
-                    rs.getString("pwd"),
-                    rs.getString("image"),
-                    rs.getTimestamp("reg_date").toLocalDateTime()
-            );
-        };
-    }
 }

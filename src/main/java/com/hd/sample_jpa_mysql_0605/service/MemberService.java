@@ -24,20 +24,16 @@ public class MemberService {
     private final MemberDao memberDao;
 
     // 회원 전체 조회
-//    public List<MemberResDto> findAll() {
-//        List<Member> members = memberRepository.findAll(); // DB의 정보를 Member Entity에 담음
-//        List<MemberResDto> memberResDtos = new ArrayList<>();  // DTO List 생성
-//        for (Member member : members) {
-//            memberResDtos.add(convertEntityToDto(member));
-//        }
-//        return memberResDtos;
-//    }
-
-    // 회원 전체 조회 JDBC
     public List<MemberResDto> findAll() {
-        return memberDao.findAll();
+        List<Member> members = memberRepository.findAll(); // DB의 정보를 Member Entity에 담음
+        List<MemberResDto> memberResDtos = new ArrayList<>();  // DTO List 생성
+        for (Member member : members) {
+            memberResDtos.add(convertEntityToDto(member));
+        }
+        return memberResDtos;
     }
 
+    // 회원 전체 조회 JDBC
     // 회원 상세 조회
     public MemberResDto findByEmail(String email) {
         Member member = memberRepository.findByEmail(email).orElseThrow(
@@ -80,7 +76,6 @@ public class MemberService {
     private MemberResDto convertEntityToDto (Member member) {
         MemberResDto memberResDto = new MemberResDto();
         memberResDto.setEmail(member.getEmail());
-        memberResDto.setPwd(member.getPwd());
         memberResDto.setName(member.getName());
         memberResDto.setImage(member.getImage());
         memberResDto.setRegDate(member.getRegDate());

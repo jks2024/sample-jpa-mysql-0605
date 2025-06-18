@@ -28,6 +28,7 @@ public class MemberController {
         return ResponseEntity.ok(memberService.findAll());
     }
 
+
     // 회원 상세 조회
     @GetMapping("/detail/{email}")
     public ResponseEntity<MemberResDto> getMember(@PathVariable String email) {
